@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Understanding JavaScript's Capture</title>
-</head>
-<body class="bod">
-
-  <div class="one">
-    <div class="two">
-      <div class="three">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
       </div>
     </div>
-  </div>
 
-<style>
-  html {
-    box-sizing: border-box;
-  }
-  
-  *, *:before, *:after { 
-    box-sizing: inherit; 
-  }
+    <style>
+      html {
+        box-sizing: border-box;
+      }
 
-  div {
-    width: 100%;
-    padding: 100px;
-  }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
 
-  .one {
-    background: thistle;
-  }
+      div {
+        width: 100%;
+        padding: 100px;
+      }
 
-  .two {
-    background: mistyrose;
-  }
+      .one {
+        background: thistle;
+      }
 
-  .three {
-    background: coral;
-  }
-</style>
+      .two {
+        background: mistyrose;
+      }
 
-<button></button>
-<script>
+      .three {
+        background: coral;
+      }
+    </style>
 
-</script>
-</body>
+    <button></button>
+    <script>
+      const divs = document.querySelectorAll("div");
+      const button = document.querySelector("button");
+      function logText(e) {
+        console.log(this.classList.value);
+        // e.stopPropagation(); // stop bubbling!
+        // 자식 요소 클릭 시 상위 모든 부모 클래스 및 조상 클래스의 요소들을 전부 잡는데,
+        // addEventListener에서 3번째 파라미터로 capture: false를 준 후 e.stopPropagation(); 해주면
+        // 클릭된 요소만 반환 capture:true 시 가장 상단의 조상 노드의 자식 노드를 반환
+      }
+
+      divs.forEach((div) =>
+        div.addEventListener("click", logText, {
+          capture: false,
+          once: true, // 한번만 작동
+        })
+      );
+
+      button.addEventListener("click", () => {
+        console.log("Click!!!");
+      });
+    </script>
+  </body>
 </html>
